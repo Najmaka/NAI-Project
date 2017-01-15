@@ -1,0 +1,2 @@
+example run arguments:
+-a 1.0 -e 250 -f datasets/30.arff -l 16,16,8,8 -n 0.01 -r 0.8
