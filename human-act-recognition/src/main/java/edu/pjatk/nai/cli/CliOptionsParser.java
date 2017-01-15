@@ -1,8 +1,15 @@
 package edu.pjatk.nai.cli;
 
+import com.google.common.base.Splitter;
 import org.apache.commons.cli.*;
 
+import java.io.File;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by vvyk on 15.01.17.
@@ -38,9 +45,20 @@ public class CliOptionsParser {
             return Optional.empty();
         }
 
-        //fixme add options parsing
-
         CliOptions.CliOptionsBuilder cliOptionsBuilder = CliOptions.builder();
+        cliOptionsBuilder.alpha(Double.parseDouble(commandLine.getOptionValue("a")));
+        cliOptionsBuilder.arff(new File(commandLine.getOptionValue("f")));
+        cliOptionsBuilder.epochs(Integer.parseInt(commandLine.getOptionValue("e")));
+        cliOptionsBuilder.learningStep(Double.parseDouble(commandLine.getOptionValue("n")));
+        cliOptionsBuilder.ratio(Double.parseDouble(commandLine.getOptionValue("r")));
+        String[] strIntegers = commandLine.getOptionValue("l").split(",");
+        List<Integer> layersSize = Stream.of(strIntegers).map(Integer::parseInt).collect(toList());
+        int[] sizes = new int[layersSize.size()];
+        for (int i = 0; i < layersSize.size(); i++) {
+            sizes[i] = layersSize.get(i);
+        }
+        cliOptionsBuilder.layerSizes(sizes);
+
         return Optional.of(cliOptionsBuilder.build());
     }
 

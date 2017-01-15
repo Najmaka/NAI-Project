@@ -23,7 +23,7 @@ public class BPropRunner {
         List<NetInput> testInput = new InstancesMapper().toNetInput(test);
 
         List<BPropEpochStat> stats = Lists.newArrayList(countStats(net, testInput, 0));
-        for (int i = 1; i <= 1000; i++) {
+        for (int i = 1; i <= EPOCHS; i++) {
             Collections.shuffle(trainInput);
             trainInput.forEach(in -> net.backpropagate(in, LEARNING_STEP));
             stats.add(countStats(net, testInput, i));
