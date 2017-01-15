@@ -22,31 +22,27 @@ public class NeuralNet {
 
     public NeuralNet(int[] hiddenLayerSize, Instances instances) {
         int inputSize = instances.numAttributes() - 1; // minus class attribute
-        for (int i = 0; i < hiddenLayerSize.length; i++) {
-            int neuronsNumber = hiddenLayerSize[i];
-            layers.add(LayerFactory.create(neuronsNumber, inputSize)); // hidden layer creation
+        for (int neuronsNumber : hiddenLayerSize) {
+            layers.add(LayerFactory.getInstance().create(neuronsNumber, inputSize)); // hidden layer
             inputSize = neuronsNumber;
         }
-        layers.add(LayerFactory.create(instances.numClasses(), inputSize)); // output layer creation
+        layers.add(LayerFactory.getInstance().create(instances.numClasses(), inputSize)); // output layer
         for (int i = 0; i < instances.classAttribute().numValues(); i++) {
             decisionClasses.put(i, instances.classAttribute().value(i));
         }
-        System.out.println();
     }
-    /*
-    public void predict(double[] vector, double alpha) {
-        double[] out = out(vector, alpha);
-        double max = 0;
-        double label = 0;
+
+    public String decisionClass(double[] out) {
+        int index = 0;
+        double best = out[0];
         for (int i = 0; i < out.length; i++) {
-            if (out[i] > max) {
-                label = i;
-                max = out[i];
+            if (out[i] > best) {
+                index = i;
+                best = out[i];
             }
-            System.out.println(String.format("label[%s] with [%s] accuracy", i, out[i]));
         }
-        System.out.println(String.format("final prediction [%s]", label));
-    }*/
+        return decisionClasses.get(index);
+    }
 
     public double[] out(double[] vector, double alpha) {
         val outs = outputs(vector, alpha);

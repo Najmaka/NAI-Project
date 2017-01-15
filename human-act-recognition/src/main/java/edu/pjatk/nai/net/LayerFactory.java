@@ -3,14 +3,23 @@ package edu.pjatk.nai.net;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class LayerFactory {
+class LayerFactory {
 
-    public static double[][] create(int neuronsNum, int weightsNum) {
-        double[][] layer = new double[neuronsNum][];
+    private static LayerFactory instance;
+
+    static LayerFactory getInstance() {
+        if (instance == null) {
+            instance = new LayerFactory();
+        }
+        return instance;
+    }
+
+    double[][] create(int layerSize, int inputSize) {
+        double[][] layer = new double[layerSize][];
         for (int i = 0; i < layer.length; i++) {
-            layer[i] = new double[weightsNum + 1];
-            for (int j = 0; j < weightsNum + 1; j++) {
-                layer[i][j] = ThreadLocalRandom.current().nextDouble(2) - 1;
+            layer[i] = new double[inputSize + 1]; // including bias
+            for (int j = 0; j < inputSize + 1; j++) {
+                layer[i][j] = ThreadLocalRandom.current().nextDouble(2) - 1; // weights init
             }
         }
         return layer;

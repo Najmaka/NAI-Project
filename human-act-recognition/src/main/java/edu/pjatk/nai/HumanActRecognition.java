@@ -25,25 +25,24 @@ public class HumanActRecognition {
         List<LabeledInput> inputs = createInputs(instances);
         LabeledInputDataset dataset = new LabeledInputDataset(inputs);
 
-        // neural net creationr
-        int[] hiddenLayerNeurons = {32, 16, 8};
-        NeuralNet baseNeuralNet = new NeuralNet(hiddenLayerNeurons, instances);
+        // neural net creation
+        NeuralNet neuralNet = new NeuralNet(new int[]{32,16,8}, instances);
 
         List<EpochStats> stats = new ArrayList<>();
         //todo refactor
         final double ALPHA = 1.;
         final double LEARNING_STEP = 0.01;
 
-        stats.add(stats(ALPHA, baseNeuralNet, dataset.getTesting(), 0));
+        stats.add(stats(ALPHA, neuralNet, dataset.getTesting(), 0));
         for (int i = 1; i <= 1000; i++) {
             List<LabeledInput> trainingLabeledInput = dataset.getTraining();
             Collections.shuffle(trainingLabeledInput);
             for (LabeledInput instance : trainingLabeledInput) {
-                val io = baseNeuralNet.outputs(instance.getV(), ALPHA);
-                val err = baseNeuralNet.errors(io, instance.getD());
-                baseNeuralNet.update(io.getLeft(), err, LEARNING_STEP);
+                val io = neuralNet.outputs(instance.getV(), ALPHA);
+                val err = neuralNet.errors(io, instance.getD());
+                neuralNet.update(io.getLeft(), err, LEARNING_STEP);
             }
-            stats.add(stats(ALPHA, baseNeuralNet, dataset.getTesting(), i));
+            stats.add(stats(ALPHA, neuralNet, dataset.getTesting(), i));
         }
     }
 
