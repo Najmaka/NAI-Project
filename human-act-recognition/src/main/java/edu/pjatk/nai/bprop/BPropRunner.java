@@ -14,6 +14,7 @@ import java.util.Objects;
 @Data
 public class BPropRunner {
 
+    private final int EPOCHS;
     private final double LEARNING_STEP;
 
     public List<BPropEpochStat> run(Net net, Instances train, Instances test) {
