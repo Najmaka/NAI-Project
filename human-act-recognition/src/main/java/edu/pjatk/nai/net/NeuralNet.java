@@ -3,21 +3,37 @@ package edu.pjatk.nai.net;
 import lombok.Data;
 import lombok.val;
 import org.apache.commons.lang3.tuple.Pair;
+import weka.core.Instances;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 @Data
 public class NeuralNet {
 
-    private List<double[][]> layers = new ArrayList<>();
+    /** The alpha parameter used in sigmoid unipolar function. */
+    private final double ALPHA = 1.0;
 
-    public void addLayer(double[][] layer) {
-        layers.add(layer);
+    /** The list containing all layers. */
+    private final List<double[][]> layers = new ArrayList<>();
+
+    /** Maps index of winner neuron from last layer to decision class. */
+    private final Map<Integer, String> decisionClasses = new HashMap<>();
+
+    public NeuralNet(int[] hiddenLayerSize, Instances instances) {
+        int inputSize = instances.numAttributes() - 1; // minus class attribute
+        for (int i = 0; i < hiddenLayerSize.length; i++) {
+            int neuronsNumber = hiddenLayerSize[i];
+            layers.add(LayerFactory.create(neuronsNumber, inputSize)); // hidden layer creation
+            inputSize = neuronsNumber;
+        }
+        layers.add(LayerFactory.create(instances.numClasses(), inputSize)); // output layer creation
+        for (int i = 0; i < instances.classAttribute().numValues(); i++) {
+            decisionClasses.put(i, instances.classAttribute().value(i));
+        }
+        System.out.println();
     }
-
+    /*
     public void predict(double[] vector, double alpha) {
         double[] out = out(vector, alpha);
         double max = 0;
@@ -30,7 +46,7 @@ public class NeuralNet {
             System.out.println(String.format("label[%s] with [%s] accuracy", i, out[i]));
         }
         System.out.println(String.format("final prediction [%s]", label));
-    }
+    }*/
 
     public double[] out(double[] vector, double alpha) {
         val outs = outputs(vector, alpha);
@@ -76,7 +92,7 @@ public class NeuralNet {
 
         for (int i = layers.size() - 2; i >= 0; i--) {
             double[] nextLayerErrors = inverseErrors.get(inverseErrors.size() - 1);
-            double[][] nextLayer = layers.get(i+1);
+            double[][] nextLayer = layers.get(i + 1);
             double[] layerError = new double[layers.get(i).length];
             for (int neuronIndex = 0; neuronIndex < layerError.length; neuronIndex++) {
                 double neuronOut = io.getRight().get(i)[neuronIndex];
@@ -102,7 +118,7 @@ public class NeuralNet {
             double[] input = inputs.get(layerIndex);
             for (int neuronIndex = 0; neuronIndex < currentLayer.length; neuronIndex++) {
                 double[] w = currentLayer[neuronIndex];
-                for (int weightIndex = 0; weightIndex < w.length -1; weightIndex++) {
+                for (int weightIndex = 0; weightIndex < w.length - 1; weightIndex++) {
                     double wCorrInput = input[weightIndex];
                     double wCorrError = errors.get(layerIndex)[neuronIndex];
                     w[weightIndex] += l * wCorrInput * wCorrError;
@@ -110,17 +126,5 @@ public class NeuralNet {
                 w[w.length - 1] += l * errors.get(layerIndex)[neuronIndex];
             }
         }
-    }
-
-    public NeuralNet copy() {
-        NeuralNet neuralNet = new NeuralNet();
-        for (double[][] layer : layers) {
-            double[][] clonedLayer = new double[layer.length][];
-            for (int i = 0; i < layer.length; i++) {
-                clonedLayer[i] = layer[i].clone();
-            }
-            neuralNet.addLayer(clonedLayer);
-        }
-        return neuralNet;
     }
 }

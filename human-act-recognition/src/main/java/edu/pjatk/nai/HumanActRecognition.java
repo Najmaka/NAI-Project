@@ -3,14 +3,15 @@ package edu.pjatk.nai;
 import edu.pjatk.nai.evaluation.EpochStats;
 import edu.pjatk.nai.input.LabeledInput;
 import edu.pjatk.nai.input.LabeledInputDataset;
-import edu.pjatk.nai.net.LayerFactory;
 import edu.pjatk.nai.net.NeuralNet;
 import lombok.val;
-import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,18 +21,15 @@ public class HumanActRecognition {
 
     public static void main(String[] args) throws Exception {
 
-        Instances instances = loadInstances(new File("datasets/15.arff"));
+        Instances instances = loadInstances(new File("datasets/70.arff"));
         List<LabeledInput> inputs = createInputs(instances);
         LabeledInputDataset dataset = new LabeledInputDataset(inputs);
 
-        NeuralNet baseNeuralNet = new NeuralNet();
-        baseNeuralNet.addLayer(LayerFactory.create(8, instances.numAttributes()-1));
-        baseNeuralNet.addLayer(LayerFactory.create(6, 8));
-        baseNeuralNet.addLayer(LayerFactory.create(6, 6));
-        baseNeuralNet.addLayer(LayerFactory.create(instances.numClasses(), 6));
+        // neural net creationr
+        int[] hiddenLayerNeurons = {32, 16, 8};
+        NeuralNet baseNeuralNet = new NeuralNet(hiddenLayerNeurons, instances);
 
         List<EpochStats> stats = new ArrayList<>();
-
         //todo refactor
         final double ALPHA = 1.;
         final double LEARNING_STEP = 0.01;
@@ -47,16 +45,6 @@ public class HumanActRecognition {
             }
             stats.add(stats(ALPHA, baseNeuralNet, dataset.getTesting(), i));
         }
-
-        System.out.println();
-//        AbstractClassifier randomForest = new J48();
-//        randomForest.setNumIterations(100);
-//        randomForest.buildClassifier(instances);
-//        Evaluation evaluation = new Evaluation(instances);
-//        evaluation.crossValidateModel(randomForest, instances, 10, new Random(10));
-//        System.out.println(evaluation.toSummaryString());
-//        System.out.println(evaluation.toMatrixString());
-//        System.out.println(evaluation.toClassDetailsString());
     }
 
     //todo extract to separate class
