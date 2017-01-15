@@ -1,24 +1,18 @@
 package edu.pjatk.nai.bprop;
 
+import com.google.common.collect.Lists;
+import edu.pjatk.nai.input.InstancesMapper;
 import edu.pjatk.nai.net.Net;
 import edu.pjatk.nai.net.NetInput;
-import edu.pjatk.nai.input.InstancesMapper;
 import lombok.Data;
-import lombok.val;
 import weka.core.Instances;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Created by vvyk on 15.01.17.
- */
 @Data
 public class BPropRunner {
-
-    private final double ALPHA;
 
     private final double LEARNING_STEP;
 
@@ -27,25 +21,20 @@ public class BPropRunner {
         List<NetInput> trainInput = new InstancesMapper().toNetInput(train);
         List<NetInput> testInput = new InstancesMapper().toNetInput(test);
 
-        List<BPropEpochStat> epochStats = new ArrayList<>();
-        epochStats.add(countStats(ALPHA, net, testInput, 0));
+        List<BPropEpochStat> stats = Lists.newArrayList(countStats(net, testInput, 0));
         for (int i = 1; i <= 1000; i++) {
             Collections.shuffle(trainInput);
-            for (NetInput netInput : trainInput) {
-                val io = net.outputs(netInput.getFeatures(), ALPHA);
-                val err = net.errors(io, netInput.getDesired());
-                net.update(io.getLeft(), err, LEARNING_STEP);
-            }
-            epochStats.add(countStats(ALPHA, net, testInput, i));
+            trainInput.forEach(in -> net.backpropagate(in, LEARNING_STEP));
+            stats.add(countStats(net, testInput, i));
         }
-        return epochStats;
+        return stats;
     }
 
-    private BPropEpochStat countStats(double alpha, Net net, List<NetInput> inputs, int epoch) {
+    private BPropEpochStat countStats(Net net, List<NetInput> inputs, int epoch) {
         double err = 0.;
         double correct = 0.;
         for (NetInput instance : inputs) {
-            double[] out = net.out(instance.getFeatures(), alpha);
+            double[] out = net.out(instance.getFeatures());
             String predictedLabel = net.decisionClass(out);
             if (Objects.equals(predictedLabel, instance.getLabel())) {
                 correct++;
@@ -54,8 +43,10 @@ public class BPropRunner {
                 err += Math.pow(instance.getDesired()[i] - out[i], 2);
             }
         }
-        BPropEpochStat s = new BPropEpochStat(epoch, err / inputs.size(), correct / inputs.size());
-        System.out.println(s.toString());
-        return s;
+        final double meanSquaredError = err / inputs.size();
+        final double accuracy = correct / inputs.size();
+        BPropEpochStat epochStat = new BPropEpochStat(epoch, meanSquaredError, accuracy);
+        System.out.println(epochStat.csv());
+        return epochStat;
     }
 }

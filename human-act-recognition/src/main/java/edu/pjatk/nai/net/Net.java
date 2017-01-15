@@ -12,7 +12,7 @@ import java.util.*;
 public class Net {
 
     /** The alpha parameter used in sigmoid unipolar function. */
-    private final double ALPHA = 1.0;
+    private final double ALPHA;
 
     /** The list containing all layers. */
     private final List<double[][]> layers = new ArrayList<>();
@@ -20,7 +20,8 @@ public class Net {
     /** Maps index of winner neuron from last layer to decision class. */
     private final Map<Integer, String> decisionClasses = new HashMap<>();
 
-    public Net(int[] hiddenLayerSize, Instances instances) {
+    public Net(int[] hiddenLayerSize, Instances instances, double alpha) {
+        this.ALPHA = alpha;
         int inputSize = instances.numAttributes() - 1; // minus class attribute
         for (int neuronsNumber : hiddenLayerSize) {
             layers.add(NetLayerFactory.getInstance().create(neuronsNumber, inputSize));
@@ -44,12 +45,12 @@ public class Net {
         return decisionClasses.get(index);
     }
 
-    public double[] out(double[] vector, double alpha) {
-        val outs = outputs(vector, alpha);
+    public double[] out(double[] vector) {
+        val outs = outputs(vector);
         return outs.getRight().get(outs.getRight().size() - 1);
     }
 
-    public Pair<List<double[]>, List<double[]>> outputs(double[] vector, double alpha) {
+    private Pair<List<double[]>, List<double[]>> outputs(double[] vector) {
         List<double[]> inputs = new ArrayList<>();
         inputs.add(vector);
         List<double[]> outs = new ArrayList<>();
@@ -64,7 +65,7 @@ public class Net {
                     net += inputVector[weightIndex] * neuron[weightIndex];
                 }
                 net += neuron[neuron.length - 1]; // incl bias
-                y[neuronIndex] = 1. / (1. + Math.pow(Math.E, -alpha * net));
+                y[neuronIndex] = 1. / (1. + Math.pow(Math.E, -ALPHA * net));
             }
             outs.add(y);
             if (layerIndex != layers.size() - 1) {
@@ -74,7 +75,7 @@ public class Net {
         return Pair.of(inputs, outs);
     }
 
-    public List<double[]> errors(Pair<List<double[]>, List<double[]>> io, double[] desired) {
+    private List<double[]> errors(Pair<List<double[]>, List<double[]>> io, double[] desired) {
         List<double[]> inverseErrors = new ArrayList<>();
         double[] lastErrors = new double[layers.get(layers.size() - 1).length];
         for (int nIndex = 0; nIndex < lastErrors.length; nIndex++) {
@@ -108,7 +109,7 @@ public class Net {
         return out * (1 - out);
     }
 
-    public void update(List<double[]> inputs, List<double[]> errors, double l) {
+    private void update(List<double[]> inputs, List<double[]> errors, double l) {
         for (int layerIndex = 0; layerIndex < layers.size(); layerIndex++) {
             double[][] currentLayer = layers.get(layerIndex);
             double[] input = inputs.get(layerIndex);
@@ -122,5 +123,11 @@ public class Net {
                 w[w.length - 1] += l * errors.get(layerIndex)[neuronIndex];
             }
         }
+    }
+
+    public void backpropagate(NetInput netInput, double learningStep) {
+        Pair<List<double[]>, List<double[]>> inputsOutputs = outputs(netInput.getFeatures());
+        List<double[]> errors = errors(inputsOutputs, netInput.getDesired());
+        update(inputsOutputs.getLeft(), errors, learningStep);
     }
 }

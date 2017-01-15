@@ -17,10 +17,10 @@ public class HumanActRecognition {
         Pair<Instances, Instances> dataset = new InstancesReader().load(arffFile, 0.9);
 
         // neural net creation
-        Net net = new Net(new int[]{32,16,8}, dataset.getLeft());
+        Net net = new Net(new int[] {32, 16, 8}, dataset.getLeft(), 1.0);
 
         // running backpropagation algorithm
-        BPropRunner backpropagation = new BPropRunner(1., 0.01);
+        BPropRunner backpropagation = new BPropRunner(0.01);
         backpropagation.run(net, dataset.getLeft(), dataset.getRight());
     }
 
