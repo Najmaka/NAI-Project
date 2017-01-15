@@ -3,13 +3,13 @@ package edu.pjatk.nai.net;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-class LayerFactory {
+class NetLayerFactory {
 
-    private static LayerFactory instance;
+    private static NetLayerFactory instance;
 
-    static LayerFactory getInstance() {
+    static NetLayerFactory getInstance() {
         if (instance == null) {
-            instance = new LayerFactory();
+            instance = new NetLayerFactory();
         }
         return instance;
     }

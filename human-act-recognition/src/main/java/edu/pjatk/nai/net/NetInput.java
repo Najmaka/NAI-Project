@@ -1,0 +1,19 @@
+package edu.pjatk.nai.net;
+
+import lombok.Data;
+
+/**
+ * Created by vvyk on 15.01.17.
+ */
+@Data
+public class NetInput {
+
+    /** Attributes of input. */
+    private final double[] features;
+
+    /** Desired output vector. */
+    private final double[] desired;
+
+    /** Instance label. */
+    private final String label;
+}

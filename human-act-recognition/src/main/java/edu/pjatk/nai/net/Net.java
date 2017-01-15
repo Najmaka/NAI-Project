@@ -9,7 +9,7 @@ import java.util.*;
 
 
 @Data
-public class NeuralNet {
+public class Net {
 
     /** The alpha parameter used in sigmoid unipolar function. */
     private final double ALPHA = 1.0;
@@ -20,13 +20,13 @@ public class NeuralNet {
     /** Maps index of winner neuron from last layer to decision class. */
     private final Map<Integer, String> decisionClasses = new HashMap<>();
 
-    public NeuralNet(int[] hiddenLayerSize, Instances instances) {
+    public Net(int[] hiddenLayerSize, Instances instances) {
         int inputSize = instances.numAttributes() - 1; // minus class attribute
         for (int neuronsNumber : hiddenLayerSize) {
-            layers.add(LayerFactory.getInstance().create(neuronsNumber, inputSize)); // hidden layer
+            layers.add(NetLayerFactory.getInstance().create(neuronsNumber, inputSize));
             inputSize = neuronsNumber;
         }
-        layers.add(LayerFactory.getInstance().create(instances.numClasses(), inputSize)); // output layer
+        layers.add(NetLayerFactory.getInstance().create(instances.numClasses(), inputSize));
         for (int i = 0; i < instances.classAttribute().numValues(); i++) {
             decisionClasses.put(i, instances.classAttribute().value(i));
         }
