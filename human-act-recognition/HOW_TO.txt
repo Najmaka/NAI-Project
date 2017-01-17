@@ -1,2 +1,36 @@
+in order to create arff file provide paths to the features, activity_labels, train_features and train_labels
+the order is important
+
+example shell cmd:
+./arff_maker.py ../data/features.txt ../data/activity_labels.txt ../data/train_features.txt ../data/train_labels.txt
+
+to save as arff file:
+./arff_maker.py ../data/features.txt ../data/activity_labels.txt ../data/train_features.txt ../data/train_labels.txt > dataset.arff
+
+
+when arff file is created, filter attributes in weka and save reduced arff datasets as .arff files
+to run experiment, trigger .jar with human-act-recognition-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+
+in case of empty arguments, help will be printed:
+usage: All below options must be provided
+ -a <arg>   alpha parameter value (double)
+ -e <arg>   number of epochs (double)
+ -f <arg>   dataset arff file path (string)
+ -l <arg>   hidden layers size, eg. "16,16,8" (string)
+ -n <arg>   learning step value (double)
+ -r <arg>   dataset instances ratio (double)
+
+
 example run arguments:
--a 1.0 -e 250 -f datasets/30.arff -l 16,16,8,8 -n 0.01 -r 0.8
+java -jar human-act-recognition-1.0-SNAPSHOT-jar-with-dependencies.jar -a 1.0 -e 250 -f datasets/30.arff -l 16,16,8,8 -n 0.01 -r 0.8
+
+to store results pipe it to file
+java -jar human-act-recognition-1.0-SNAPSHOT-jar-with-dependencies.jar -a 1.0 -e 250 -f datasets/30.arff -l 16,16,8,8 -n 0.01 -r 0.8 > results.csv
+
+to prepare plots run scripts from /scripts folder (plot_accuracy_maker.py and plot_mse_maker.py)
+first argument must be .csv file, second one is the name (without any extension) of created plot, e.g:
+
+./plot_mse_maker.py ../results.csv results_mse
+
+
