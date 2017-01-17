@@ -1,19 +1,15 @@
 package edu.pjatk.nai.cli;
 
-import com.google.common.base.Splitter;
 import org.apache.commons.cli.*;
 
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
-/**
- * Created by vvyk on 15.01.17.
- */
+
 public class CliOptionsParser {
 
     private final Options options;

@@ -23,7 +23,6 @@ public class HumanActRecognition {
         }
         CliOptions opt = optsOptional.get();
 
-
         // reading dataset, left (key) are training instances, right (value) are testing ones
         Pair<Instances, Instances> data = new InstancesReader().load(opt.getArff(), opt.getRatio());
 
