@@ -67,7 +67,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>classification</mainClass>
+              <mainClass>edu.pjatk.nai.HumanActRecognition</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
