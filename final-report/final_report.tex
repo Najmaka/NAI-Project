@@ -1,6 +1,7 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage[pdftex]{graphicx}
 \usepackage{float}
+\usepackage{listings}
 
 
 \begin{document}
@@ -20,15 +21,35 @@
 \newpage
 
 \section{Task description}
+This report covers the classification of experiment results which was performed on group of 30 volunteers. Each person performed six activities (WALKING, WALKING{\_}UPSTAIRS, WALKING{\_}DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz were captured. The experiments have been video-recorded to label the data manually.\\
+The main purpose of this project is to perform \textbf{feature selection} and \textbf{classification} of the feature vectors. The experimental process of developing program and performing experiment has been widely described in further sections of this article.
 
 \section{Initial dataset}
+The dataset has been downloaded from the \textbf{UCI} repository from link assigned to this particular problem, the \textbf{Human Activity Recognition using Smart Phones}. The brief description of the data may be found there.\\
+Due to task requirements, we were supposed to train classifier on the entire dataset. The datasource was already splitted as two distinct non overlapping sets-  training and testing one. Task requires to split entire set randomly, so first of all we have merged sets to the one containing all training and testing instances.\\
 \subsection{Number of records}
+After successful merging of training and testing instances to single datasource it contains \textbf{10299} instances in total. Due to dataset characteristics they reside as two separate files, one with feature vectors  (\textit{dataset/train{\_}features.txt}) and second one with decision class indexes (\textit{dataset/train{\_}labels.txt}).
 \subsection{Number of attributes}
+Each instances is described by feature vector with length equal to \textbf{561}. The description of each feature meaning can be found on UCI webpage. Names and indexes of all features may be found in file (\textit{dataset/features.txt}).
 \subsection{Decision classes distribution}
+The decision class of instance is one from the predefined set \{WALKING, WALKING{\_}UPSTAIRS, WALKING{\_}DOWNSTAIRS, SITTING, STANDING, LAYING\}.\\
+There are \textbf{6} decision classes assigned to the instances. The labels are stored in 4th data file called (\textit{dataset/activity{\_}labels.txt})
+\subsection{Preprocessing}
+Task is highly related with attributes filtering. We decided to use \textbf{WEKA} machine learning library to preprocess (filter out) redundant features. The library accepts only files with .arff format, so we wrote a converter in \textbf{Python 3.4} to create such file. The script (\textit{scripts/arff{\_}maker.py}) is responsible to merge four mentioned data files in to the single .arff one which could be further processed by WEKA library.\\
+To perform the file concatenation following command must be run in shell terminal (assuming that current pwd is script folder). It is vital to redirect the output of the script to file with .arff extension, like:\\
+\begin{lstlisting}[language=bash]
+  ./arff_maker.py \
+    ../data/features.txt \
+    ../data/activity_labels.txt \
+    ../data/train_features.txt \
+    ../data/train_labels.txt > ../datasets/dataset.arff
+\end{lstlisting}
 
+Above command will join files together and make the valid .arff datasource file which may be used as input to weka.jar to filter attributes.
 
 \section{Solving method}
-\subsection{Dataset creation}
+There were to possible approaches to solve the chosen task. The \textbf{K-nearest neighbours} alogrithm and \textbf{multilayer neural network} implementation. We have decided not to use ready to go classifiers from WEKA package but we developed our implementation of multilayer network which is learned by applying backpropagation algorithm. Due to fact that all of us are familiar with \textbf{Java} programming language we have decided to implement the solving algorithm in this environment. We developed a program solution that is fully configurable via command line arguments. All of \textbf{neural network} parameters 
+\subsection{Dataset filtering}
 \subsection{Feature selection}
 
 \section{Classification algorithm}
@@ -40,9 +61,9 @@
 \subsection{Neural net architecture}
 \subsection{Learning parameters}
 \subsection{1 experiment - 8 features}
-\subsection{1 experiment - 20 features}
-\subsection{1 experiment - 50 features}
-\subsection{1 experiment - all features}
+\subsection{2 experiment - 20 features}
+\subsection{3 experiment - 50 features}
+\subsection{4 experiment - 561 features}
 \subsection{Conclusion}
 
 
