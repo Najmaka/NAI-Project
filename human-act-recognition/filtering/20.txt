@@ -1,0 +1,45 @@
+=== Run information ===
+
+Evaluator:    weka.attributeSelection.InfoGainAttributeEval 
+Search:       weka.attributeSelection.Ranker -T -1.7976931348623157E308 -N 20
+Relation:     HumanAct
+Instances:    10299
+Attributes:   562
+              [list of attributes omitted]
+Evaluation mode:    evaluate on all training data
+
+
+
+=== Attribute Selection on all input data ===
+
+Search Method:
+	Attribute ranking.
+
+Attribute Evaluator (supervised, Class (nominal): 562 class):
+	Information Gain Ranking Filter
+
+Ranked attributes:
+1.279     303 303_fBodyAccbandsEnergy18
+1.275      10 10_tBodyAccmaxX
+1.27      311 311_fBodyAccbandsEnergy116
+1.256     269 269_fBodyAccstdX
+1.252     315 315_fBodyAccbandsEnergy124
+1.25      282 282_fBodyAccenergyX
+1.25        4 4_tBodyAccstdX
+1.244      17 17_tBodyAccenergyX
+1.236     275 275_fBodyAccmaxX
+1.228       7 7_tBodyAccmadX
+1.223     382 382_fBodyAccJerkbandsEnergy18
+1.221     272 272_fBodyAccmadX
+1.213     505 505_fBodyAccMagmad
+1.196     504 504_fBodyAccMagstd
+1.196     266 266_fBodyAccmeanX
+1.189     215 215_tGravityAccMagstd
+1.189     202 202_tBodyAccMagstd
+1.189     509 509_fBodyAccMagenergy
+1.178      90 90_tBodyAccJerkmaxX
+1.174     390 390_fBodyAccJerkbandsEnergy116
+
+Selected attributes: 303,10,311,269,315,282,4,17,275,7,382,272,505,504,266,215,202,509,90,390 : 20
+
+

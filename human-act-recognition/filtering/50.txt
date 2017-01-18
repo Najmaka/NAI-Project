@@ -1,0 +1,75 @@
+=== Run information ===
+
+Evaluator:    weka.attributeSelection.InfoGainAttributeEval 
+Search:       weka.attributeSelection.Ranker -T -1.7976931348623157E308 -N 50
+Relation:     HumanAct
+Instances:    10299
+Attributes:   562
+              [list of attributes omitted]
+Evaluation mode:    evaluate on all training data
+
+
+
+=== Attribute Selection on all input data ===
+
+Search Method:
+	Attribute ranking.
+
+Attribute Evaluator (supervised, Class (nominal): 562 class):
+	Information Gain Ranking Filter
+
+Ranked attributes:
+1.279     303 303_fBodyAccbandsEnergy18
+1.275      10 10_tBodyAccmaxX
+1.27      311 311_fBodyAccbandsEnergy116
+1.256     269 269_fBodyAccstdX
+1.252     315 315_fBodyAccbandsEnergy124
+1.25      282 282_fBodyAccenergyX
+1.25        4 4_tBodyAccstdX
+1.244      17 17_tBodyAccenergyX
+1.236     275 275_fBodyAccmaxX
+1.228       7 7_tBodyAccmadX
+1.223     382 382_fBodyAccJerkbandsEnergy18
+1.221     272 272_fBodyAccmadX
+1.213     505 505_fBodyAccMagmad
+1.196     504 504_fBodyAccMagstd
+1.196     266 266_fBodyAccmeanX
+1.189     215 215_tGravityAccMagstd
+1.189     202 202_tBodyAccMagstd
+1.189     509 509_fBodyAccMagenergy
+1.178      90 90_tBodyAccJerkmaxX
+1.174     390 390_fBodyAccJerkbandsEnergy116
+1.168     234 234_tBodyAccJerkMagiqr
+1.165     229 229_tBodyAccJerkMagmad
+1.162     508 508_fBodyAccMagsma
+1.162     503 503_fBodyAccMagmean
+1.157     288 288_fBodyAccentropyX
+1.156     203 203_tBodyAccMagmad
+1.156     216 216_tGravityAccMagmad
+1.155     511 511_fBodyAccMagentropy
+1.154      20 20_tBodyAcciqrX
+1.152     204 204_tBodyAccMagmax
+1.152     217 217_tGravityAccMagmax
+1.15      510 510_fBodyAccMagiqr
+1.147     345 345_fBodyAccJerkmeanX
+1.146     394 394_fBodyAccJerkbandsEnergy124
+1.144      97 97_tBodyAccJerkenergyX
+1.144     361 361_fBodyAccJerkenergyX
+1.144      84 84_tBodyAccJerkstdX
+1.144     517 517_fBodyBodyAccJerkMagstd
+1.139      87 87_tBodyAccJerkmadX
+1.135     228 228_tBodyAccJerkMagstd
+1.134     522 522_fBodyBodyAccJerkMagenergy
+1.134     519 519_fBodyBodyAccJerkMagmax
+1.134     348 348_fBodyAccJerkstdX
+1.132     360 360_fBodyAccJerksma
+1.131     207 207_tBodyAccMagenergy
+1.131     220 220_tGravityAccMagenergy
+1.131     233 233_tBodyAccJerkMagenergy
+1.13      351 351_fBodyAccJerkmadX
+1.128     235 235_tBodyAccJerkMagentropy
+1.121     521 521_fBodyBodyAccJerkMagsma
+
+Selected attributes: 303,10,311,269,315,282,4,17,275,7,382,272,505,504,266,215,202,509,90,390,234,229,508,503,288,203,216,511,20,204,217,510,345,394,97,361,84,517,87,228,522,519,348,360,207,220,233,351,235,521 : 50
+
+

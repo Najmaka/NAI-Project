@@ -1,0 +1,41 @@
+java -jar human-act-recognition.jar -a 1.0 -e 200 -f datasets/all.arff -l 32,16,8 -n 0.015 -r 0.7 > results/all.csv
+java -jar human-act-recognition.jar -a 1.0 -e 200 -f datasets/50.arff -l 32,16,8 -n 0.015 -r 0.7 > results/50.csv
+java -jar human-act-recognition.jar -a 1.0 -e 200 -f datasets/20.arff -l 32,16,8 -n 0.015 -r 0.7 > results/20.csv
+java -jar human-act-recognition.jar -a 1.0 -e 200 -f datasets/8.arff -l 32,16,8 -n 0.015 -r 0.7 > results/8.csv
+
+./plot_mse_maker.py ../results/8.csv ../results/8_mse
+./plot_mse_maker.py ../results/20.csv ../results/20_mse
+./plot_mse_maker.py ../results/50.csv ../results/50_mse
+./plot_mse_maker.py ../results/all.csv ../results/all_mse
+
+./plot_accuracy_maker.py ../results/8.csv ../results/8_acc
+./plot_accuracy_maker.py ../results/20.csv ../results/20_acc
+./plot_accuracy_maker.py ../results/50.csv ../results/50_acc
+./plot_accuracy_maker.py ../results/all.csv ../results/all_acc
+
+
+java -jar human-act-recognition.jar -a 1.0 -e 200 -f datasets/all.arff -l 6,6 -n 0.1 -r 0.7 > results/all_2.csv
+java -jar human-act-recognition.jar -a 1.0 -e 200 -f datasets/50.arff -l 6,6 -n 0.1 -r 0.7 > results/50_2.csv
+java -jar human-act-recognition.jar -a 1.0 -e 200 -f datasets/20.arff -l 6,6 -n 0.1 -r 0.7 > results/20_2.csv
+java -jar human-act-recognition.jar -a 1.0 -e 200 -f datasets/8.arff -l 6,6 -n 0.1 -r 0.7 > results/8_2.csv
+
+./plot_mse_maker.py ../results/8_2.csv ../results/8_mse_2
+./plot_mse_maker.py ../results/20_2.csv ../results/20_mse_2
+./plot_mse_maker.py ../results/50_2.csv ../results/50_mse_2
+./plot_mse_maker.py ../results/all_2.csv ../results/all_mse_2
+
+./plot_accuracy_maker.py ../results/8_2.csv ../results/8_acc_2
+./plot_accuracy_maker.py ../results/20_2.csv ../results/20_acc_2
+./plot_accuracy_maker.py ../results/50_2.csv ../results/50_acc_2
+./plot_accuracy_maker.py ../results/all_2.csv ../results/all_acc_2
+
+
+----------------------
+java -jar human-act-recognition.jar -a 1.0 -e 200 -f datasets/all.arff -l 6,6 -n 0.001 -r 0.7 > results/all_3.csv
+java -jar human-act-recognition.jar -a 1.0 -e 200 -f datasets/8.arff -l 6,6 -n 0.001 -r 0.7 > results/8_3.csv
+
+./plot_mse_maker.py ../results/8_3.csv ../results/8_3_mse
+./plot_mse_maker.py ../results/all_3.csv ../results/all_3_mse
+
+./plot_accuracy_maker.py ../results/8_3.csv ../results/8_3_acc
+./plot_accuracy_maker.py ../results/all_3.csv ../results/all_3_acc

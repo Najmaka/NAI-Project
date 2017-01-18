@@ -9,7 +9,7 @@ to save as arff file:
 
 
 when arff file is created, filter attributes in weka and save reduced arff datasets as .arff files
-to run experiment, trigger .jar with human-act-recognition-1.0-SNAPSHOT-jar-with-dependencies.jar
+to run experiment, trigger .jar with human-act-recognition.jar
 
 
 in case of empty arguments, help will be printed:
@@ -23,10 +23,10 @@ usage: All below options must be provided
 
 
 example run arguments:
-java -jar human-act-recognition-1.0-SNAPSHOT-jar-with-dependencies.jar -a 1.0 -e 250 -f datasets/30.arff -l 16,16,8,8 -n 0.01 -r 0.8
+java -jar human-act-recognition.jar -a 1.0 -e 250 -f datasets/30.arff -l 16,16,8,8 -n 0.01 -r 0.8
 
 to store results pipe it to file
-java -jar human-act-recognition-1.0-SNAPSHOT-jar-with-dependencies.jar -a 1.0 -e 250 -f datasets/30.arff -l 16,16,8,8 -n 0.01 -r 0.8 > results.csv
+java -jar human-act-recognition-1.0.jar -a 1.0 -e 250 -f datasets/30.arff -l 16,16,8,8 -n 0.01 -r 0.8 > results.csv
 
 to prepare plots run scripts from /scripts folder (plot_accuracy_maker.py and plot_mse_maker.py)
 first argument must be .csv file, second one is the name (without any extension) of created plot, e.g:
