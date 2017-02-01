@@ -271,7 +271,16 @@ Epochs:             200     - same as before
 
 \subsection{Conclusion}
 
-
+Due to fact that we performed experiments on different network structures and datasets build with wide variety of attibutes, we can conlude few remarks. Below we present our observations:
+\begin{enumerate}
+\item If the neural net is complex, it requires more epochs to gain satisfactionary accuracy. The backpropagation method requires more iterations to change synaptic weights in order to increase te accuracy and decrease overall mean squared error of the net.
+\item The mean squared error is strictly related to overall accuracy. We can observe accuracy gains on mse drops.
+\item Neural net with more complex structure can archieve a little bit better performance in comparison to the regular (not as complex) network.
+\item High value of learning step provides dynamic mse growths causing accuracy drop. Big value of learning step causes net to update weights in conjunction with current instance, but weights change is so high that net forgets previous instances which were correctly classified.
+\item Our experiment shows, that we do not increase accuracy when we decrease number of features in the dataset. The plots are similar in shape, but the accuracy is always worse than accuracy obtained when we trained net on the dataset with all features.
+\item Time taken to fully train the net (iterate over all epochs) using dataset with all features is higher than training with only subset of features.
+\end{enumerate}
  
 
 \end{document}
+\grid
